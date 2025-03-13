@@ -28,12 +28,26 @@ struct ContentView: View {
             }
             .font(.title2)
             .textFieldStyle(.roundedBorder)
-//            .frame(width: 30)
             .overlay {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(Color.gray, lineWidth: 1)
             }
             .padding()
+            
+            
+            Button {
+                //TODO:
+            } label: {
+                Image("wu-tang-button")
+                Text("Get It!")
+            }
+            .font(.title2)
+            .fontWeight(.bold)
+            .buttonStyle(.borderedProminent)
+            .tint(.black)
+            .foregroundStyle(.yellow)
+            
+
             
             Spacer()
             
@@ -42,7 +56,6 @@ struct ContentView: View {
                 .scaledToFit()
                 
         }
-//        .ignoresSafeArea(edges: .bottom)
     }
 }
 
