@@ -9,67 +9,69 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var enteredName = ""
-    @State private var staticCoderNameIs = "Your Wu-Tang Coder Name is"
+    @State private var staticCoderNameIs = ""
     @State private var wuTangName = "  "
+//    @State private var imageName = "wu-tang"
     private let firstColumn = ["Algorithmic",
-                                      "Byte",
-                                      "Cache",
-                                      "Debug",
-                                      "Echo",
-                                      "Function",
-                                      "Git",
-                                      "Hex",
-                                      "Infinite",
-                                      "Java",
-                                      "Kernel",
-                                      "Logic",
-                                      "Module",
-                                      "Node",
-                                      "Object",
-                                      "Pixel",
-                                      "Query",
-                                      "Runtime",
-                                      "Script",
-                                      "Token",
-                                      "Undefined",
-                                      "Virtual",
-                                      "Web",
-                                      "Xcode",
-                                      "Yota",
-                                      "Zero"]
+                               "Byte",
+                               "Cache",
+                               "Debug",
+                               "Echo",
+                               "Function",
+                               "Git",
+                               "Hex",
+                               "Infinite",
+                               "Java",
+                               "Kernel",
+                               "Logic",
+                               "Module",
+                               "Node",
+                               "Object",
+                               "Pixel",
+                               "Query",
+                               "Runtime",
+                               "Script",
+                               "Token",
+                               "Undefined",
+                               "Virtual",
+                               "Web",
+                               "Xcode",
+                               "Yota",
+                               "Zero"]
     private let secondColumn = ["$tack",
-                                       "Processor",
-                                       "Cipher",
-                                       "Daemon",
-                                       "EndPoint",
-                                       "Framework",
-                                       "Gateway",
-                                       "Hub",
-                                       "Interrupt",
-                                       "Crash",
-                                       "Loop",
-                                       "Module",
-                                       "Nexus",
-                                       "Optimizer",
-                                       "Protocol",
-                                       "Queue",
-                                       "Router",
-                                       "Stack",
-                                       "Thread",
-                                       "Update",
-                                       "Variable",
-                                       "Widget",
-                                       "Terminal",
-                                       "Yield",
-                                       "Zen",
-                                       "Ace",
-                                       "Breakpoint",
-                                       "Root",
-                                       "Instance",
-                                       "Access",
-                                       "Archive",
-                                       "Control",
-                                       "Justice"]
+                                "Processor",
+                                "Cipher",
+                                "Daemon",
+                                "EndPoint",
+                                "Framework",
+                                "Gateway",
+                                "Hub",
+                                "Interrupt",
+                                "Crash",
+                                "Loop",
+                                "Module",
+                                "Nexus",
+                                "Optimizer",
+                                "Protocol",
+                                "Queue",
+                                "Router",
+                                "Stack",
+                                "Thread",
+                                "Update",
+                                "Variable",
+                                "Widget",
+                                "Terminal",
+                                "Yield",
+                                "Zen",
+                                "Ace",
+                                "Breakpoint",
+                                "Root",
+                                "Instance",
+                                "Access",
+                                "Archive",
+                                "Control",
+                                "Justice"]
+    @FocusState private var textFieldIsFocused: Bool
     
     var body: some View {
         VStack {
@@ -84,9 +86,7 @@ struct ContentView: View {
             
             Spacer()
             
-            TextField("Enter name here", text: $enteredName) {
-                //TODO:
-            }
+            TextField("Enter name here", text: $enteredName)
             .font(.title2)
             .textFieldStyle(.roundedBorder)
             .overlay {
@@ -94,18 +94,13 @@ struct ContentView: View {
                     .stroke(Color.gray, lineWidth: 1)
             }
             .padding()
-            .onChange(of: enteredName) {
-                if enteredName.isEmpty {
-                    wuTangName = "  "
-                }
-            }
+            .focused($textFieldIsFocused)
+            
             
             Button {
-                //TODO:
-        
-                    wuTangName = getWuTangName(WuTangName: enteredName) + " " + secondColumn[Int.random(in: 0..<secondColumn.count)]
-
-                
+                wuTangName = getWuTangName(WuTangName: enteredName) + " " + secondColumn[Int.random(in: 0..<secondColumn.count)]
+                textFieldIsFocused = false
+                staticCoderNameIs = "Your Wu-Tang Coder Name is"
             } label: {
                 Image("wu-tang-button")
                 Text("Get It!")
@@ -116,10 +111,12 @@ struct ContentView: View {
             .buttonStyle(.borderedProminent)
             .tint(.black)
             .foregroundStyle(.yellow)
+            
             Spacer()
+            
             VStack {
-                Text(staticCoderNameIs)
-                Text(wuTangName)
+                Text(textFieldIsFocused ? "" : staticCoderNameIs)
+                Text(textFieldIsFocused ? "" : wuTangName)
                     .fontWeight(.black)
                     .multilineTextAlignment(.center)
             }
@@ -128,15 +125,16 @@ struct ContentView: View {
             
             Spacer()
             
-            Image("wu-tang")
+            Image(textFieldIsFocused ? "" : "wu-tang")
                 .resizable()
                 .scaledToFit()
             
         }
+//        .ignoresSafeArea(.keyboard)
     }
     
     func getWuTangName(WuTangName: String) -> String {
-        let firstChar = WuTangName.first!
+        let firstChar = WuTangName.capitalized.first!
         let firstCharIndex = firstColumn.firstIndex(where: {$0.first == firstChar} )
         return firstCharIndex == 0 ? firstColumn[firstColumn.count - 1] : firstColumn[firstCharIndex! - 1]
     }
