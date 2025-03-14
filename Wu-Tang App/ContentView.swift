@@ -95,6 +95,11 @@ struct ContentView: View {
             }
             .padding()
             .focused($textFieldIsFocused)
+            .onChange(of: textFieldIsFocused) {
+                if textFieldIsFocused {
+                    enteredName = "" // could set staticCoderNameIs and wuTangName to empty string too instead of using ternary operator
+                }
+            }
             
             
             Button {
